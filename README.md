@@ -14,7 +14,7 @@ NOTE: only use under Unix
 # Install
 
 ```bash
-go get -u github.com/gojuukaze/watch-file
+go get -u github.com/gojuukaze/go-watch-file
 ```
 
 # Example
@@ -22,7 +22,7 @@ go get -u github.com/gojuukaze/watch-file
 package main
 
 import (
-	"github.com/gojuukaze/watch-file"
+	"github.com/gojuukaze/go-watch-file"
 	"os"
 	"fmt"
 )
