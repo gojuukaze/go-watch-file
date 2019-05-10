@@ -5,37 +5,37 @@ import (
 	"syscall"
 )
 
-type watchFile struct {
+type WatchFile struct {
 	F    *os.File
-	name string
-	flag int
-	perm os.FileMode
-	dev  int32
-	ino  uint64
+	Name string
+	Flag int
+	Perm os.FileMode
+	Dev  int32
+	Ino  uint64
 }
 
-func (wf *watchFile) Open() error {
-	f, err := os.OpenFile(wf.name, wf.flag, wf.perm)
+func (wf *WatchFile) Open() error {
+	f, err := os.OpenFile(wf.Name, wf.Flag, wf.Perm)
 	if err != nil {
 		return err
 	}
 	wf.F = f
 
-	fileInfo, err := os.Stat(wf.name)
+	fileInfo, err := os.Stat(wf.Name)
 	if err != nil {
 		wf.F.Close()
 		return err
 	}
 
 	stat := fileInfo.Sys().(*syscall.Stat_t)
-	wf.dev = stat.Dev
-	wf.ino = stat.Ino
+	wf.Dev = stat.Dev
+	wf.Ino = stat.Ino
 	return nil
 }
 
 // Reopen file if needed.
-func (wf *watchFile) Reopen() error {
-	fileInfo, err := os.Stat(wf.name)
+func (wf *WatchFile) Reopen() error {
+	fileInfo, err := os.Stat(wf.Name)
 	if err != nil {
 		wf.F.Close()
 		return wf.Open()
@@ -43,7 +43,7 @@ func (wf *watchFile) Reopen() error {
 	} else {
 
 		stat := fileInfo.Sys().(*syscall.Stat_t)
-		if wf.dev != stat.Dev || wf.ino != stat.Ino {
+		if wf.Dev != stat.Dev || wf.Ino != stat.Ino {
 			wf.F.Close()
 			return wf.Open()
 		}
@@ -51,7 +51,7 @@ func (wf *watchFile) Reopen() error {
 	return nil
 }
 
-func (wf *watchFile) WriteString(s string) (int, error) {
+func (wf *WatchFile) WriteString(s string) (int, error) {
 	err := wf.Reopen()
 	if err != nil {
 		return 0, err
@@ -59,7 +59,7 @@ func (wf *watchFile) WriteString(s string) (int, error) {
 	return wf.F.WriteString(s)
 }
 
-func (wf *watchFile) Write(p []byte) (int, error) {
+func (wf *WatchFile) Write(p []byte) (int, error) {
 	err := wf.Reopen()
 	if err != nil {
 		return 0, err
@@ -67,18 +67,18 @@ func (wf *watchFile) Write(p []byte) (int, error) {
 	return wf.F.Write(p)
 }
 
-func (wf *watchFile) Close() error {
+func (wf *WatchFile) Close() error {
 	return wf.F.Close()
 }
 
-func OpenWatchFile(name string) (*watchFile, error) {
-	var wf = watchFile{name: name, flag: os.O_WRONLY | os.O_APPEND | os.O_CREATE, perm: 0666}
+func OpenWatchFile(name string) (*WatchFile, error) {
+	var wf = WatchFile{Name: name, Flag: os.O_WRONLY | os.O_APPEND | os.O_CREATE, Perm: 0666}
 	err := wf.Open()
 	return &wf, err
 }
 
-func OpenWatchFile2(name string, flag int, perm os.FileMode) (*watchFile, error) {
-	var wf = watchFile{name: name, flag: flag, perm: perm}
+func OpenWatchFile2(name string, flag int, perm os.FileMode) (*WatchFile, error) {
+	var wf = WatchFile{Name: name, Flag: flag, Perm: perm}
 	err := wf.Open()
 	return &wf, err
 }
