@@ -13,7 +13,7 @@ NOTE: only use under Unix
 
 # version
 
-* latest: `v1.0.1`
+- latest: `v1.0.1`
 
 # Install
 
@@ -21,7 +21,9 @@ NOTE: only use under Unix
 go get -u github.com/gojuukaze/go-watch-file
 
 # use go mod
-go get -u github.com/gojuukaze/go-watch-file@1.0.1
+go get github.com/gojuukaze/go-watch-file@1.0.1
+# or
+go mod edit -require=github.com/gojuukaze/go-watch-file@1.0.1
 
 ```
 
