@@ -10,7 +10,7 @@ type WatchFile struct {
 	Name string
 	Flag int
 	Perm os.FileMode
-	Dev  int32
+	Dev  uint64
 	Ino  uint64
 }
 
@@ -28,8 +28,8 @@ func (wf *WatchFile) Open() error {
 	}
 
 	stat := fileInfo.Sys().(*syscall.Stat_t)
-	wf.Dev = stat.Dev
-	wf.Ino = stat.Ino
+	wf.Dev = uint64(stat.Dev)
+	wf.Ino = uint64(stat.Ino)
 	return nil
 }
 
@@ -43,7 +43,7 @@ func (wf *WatchFile) Reopen() error {
 	} else {
 
 		stat := fileInfo.Sys().(*syscall.Stat_t)
-		if wf.Dev != stat.Dev || wf.Ino != stat.Ino {
+		if wf.Dev != uint64(stat.Dev) || wf.Ino != uint64(stat.Ino) {
 			wf.F.Close()
 			return wf.Open()
 		}
