@@ -11,11 +11,21 @@ NOTE: only use under Unix
 
 它可以用来写会被切割的日志文件
 
+# version
+
+* latest: `v1.0.1`
+
 # Install
 
 ```bash
 go get -u github.com/gojuukaze/go-watch-file
+
+# use go mod
+go get -u github.com/gojuukaze/go-watch-file@1.0.1
+
 ```
+
+
 
 # Example
 ```go
