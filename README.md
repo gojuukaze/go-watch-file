@@ -4,10 +4,10 @@ If the file has changed, the old file stream is closed, and the file opened to g
 
 This handler is based on a suggestion by python WatchedFileHandler  
 
-NOTE: only use under Unix
+**NOTE: only use under Unix**
 
 用于打开会被删除的文件，如果被删除则自动打开新文件。  
-注意：只支持Unix
+**注意：只支持Unix**
 
 它可以用来写会被切割的日志文件
 
