@@ -13,7 +13,7 @@ NOTE: only use under Unix
 
 # version
 
-- latest: `v1.0.2`
+- latest: `v1.0.3`
 
 # Install
 
@@ -21,9 +21,9 @@ NOTE: only use under Unix
 go get -u github.com/gojuukaze/go-watch-file
 
 # use go mod
-go get github.com/gojuukaze/go-watch-file@v1.0.2
+go get github.com/gojuukaze/go-watch-file@v1.0.3
 # or
-go mod edit -require=github.com/gojuukaze/go-watch-file@v1.0.2
+go mod edit -require=github.com/gojuukaze/go-watch-file@v1.0.3
 
 ```
 
@@ -66,4 +66,56 @@ func main() {
 
 }
 
+```
+# using with logrus
+
+## set output
+```go
+f,err:=watchFile.OpenWatchFile("m.log")
+if err != nil {
+	panic(err)
+}
+Log := logrus.New()
+Log.SetOutput(f)
+```
+
+## hook
+```go
+type FileHook struct {
+	f         *watchFile.WatchFile
+	formatter logrus.Formatter
+}
+
+func (hook FileHook) Levels() []logrus.Level {
+	return logrus.AllLevels
+}
+
+func (hook FileHook) Fire(entry *logrus.Entry) error {
+	msg, err := hook.formatter.Format(entry)
+	if err != nil {
+		return err
+	}
+	hook.f.Write(msg)
+	return nil
+}
+
+func NewFileHook(name string) FileHook {
+	f, err := watchFile.OpenWatchFile(name)
+	if err != nil {
+		panic(err)
+	}
+	var hook = FileHook{
+		f:         f,
+		formatter: &logrus.TextFormatter{DisableColors: true},
+	}
+	return hook
+
+}
+
+```
+
+```go
+Log = logrus.New()
+fHook:=NewFileHook("m.log")
+Log.AddHook(fHook)
 ```
