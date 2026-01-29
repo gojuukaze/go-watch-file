@@ -1,15 +1,15 @@
 # watchFile
-watches the file to see if it has changed since the last write.  
-If the file has changed, the old file stream is closed, and the file opened to get a new file.  
 
-This handler is based on a suggestion by python WatchedFileHandler  
+`go-watch-file` is a Go library similar to Python’s`WatchedFileHandler`, for writing files that may berotated, such as log rotation scenarios.  
+  
+* **only Unix systems are supported**
+  
+`go-watch-file` 是一个类似 Python `WatchedFileHandler` 的 Go 库，用于写入可能被轮转的文件，如日志轮转场景。  
+  
+* **仅支持 Unix 系统**
 
-**NOTE: only use under Unix**
 
-用于打开会被删除的文件，如果被删除则自动打开新文件。  
-**注意：只支持Unix**
 
-它可以用来写会被切割的日志文件
 
 # version
 
