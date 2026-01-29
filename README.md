@@ -2,14 +2,16 @@
 
 `go-watch-file` is a Go library similar to Python’s`WatchedFileHandler`, for writing files that may berotated, such as log rotation scenarios.  
   
-* **only Unix systems are supported**
+(This project is stable and generally does not require updates unless Unix system behavior changes)
   
 `go-watch-file` 是一个类似 Python `WatchedFileHandler` 的 Go 库，用于写入可能被轮转的文件，如日志轮转场景。  
   
-* **仅支持 Unix 系统**
+（本项目已处于稳定状态，在 Unix 系统行为未发生变化的情况下通常不需要更新）
 
 
-
+# note
+* only Unix systems are supported
+* 仅支持 Unix 系统
 
 # version
 
